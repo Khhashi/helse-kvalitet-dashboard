@@ -17,6 +17,7 @@ function formatScore(score: number): string {
 export function HospitalOverview({ allData, indicators, years }: Props) {
   const [searchText, setSearchText] = useState("");
   const [selectedYear, setSelectedYear] = useState("all");
+  const [sortDescending, setSortDescending] = useState(true);
 
   const selectedIndicator = indicators[0].indicator_id;
 
@@ -31,6 +32,10 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
   if (selectedYear !== "all") {
     rows = rows.filter((d) => d.year === Number(selectedYear));
   }
+
+  rows = [...rows].sort((a, b) =>
+    sortDescending ? b.score - a.score : a.score - b.score
+  );
 
   return (
     <div>
@@ -61,7 +66,14 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
         <thead>
           <tr className="border-b text-left">
             <th className="p-2">Helseforetak</th>
-            <th className="p-2">Kvalitetsscore</th>
+            <th className="p-2">
+              <button
+                onClick={() => setSortDescending(!sortDescending)}
+                className="font-inherit"
+              >
+                Kvalitetsscore {sortDescending ? "↓" : "↑"}
+              </button>
+            </th>
             <th className="p-2">Pasienter</th>
             <th className="p-2">År</th>
           </tr>
