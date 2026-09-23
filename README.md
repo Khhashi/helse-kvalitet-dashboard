@@ -10,7 +10,15 @@ data fra Tonsilleregisteret (Norsk kvalitetsregister Øre-Nese-Hals).
 
 ## Teknologi
 
-Next.js 16 (App Router), React, TypeScript, Tailwind CSS
+Next.js 16 (App Router), React, TypeScript, Tailwind CSS, Recharts
+
+## Produksjon
+
+Appen er tilgjengelig på Vercel:
+
+<https://helse-kvalitet-dashboard.vercel.app>
+
+Produksjonsdeploy gjøres foreløpig manuelt fra prosjektmappen med `vercel --prod`.
 
 ## Oppstart
 
