@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllData, getIndicators } from "@/lib/data";
+import IndicatorTrendChart from "@/components/IndicatorTrendChart";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -56,26 +57,29 @@ export default async function HospitalDetailPage({ params }: Props) {
                     Ingen data tilgjengelig
                   </p>
                 ) : (
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-gray-200 text-left">
-                        <th className="pb-2 font-medium text-gray-500">År</th>
-                        <th className="pb-2 font-medium text-gray-500">Score</th>
-                        <th className="pb-2 font-medium text-gray-500">Pasienter</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowsForIndicator.map((row) => (
-                        <tr key={row.id} className="border-b border-gray-100 last:border-0">
-                          <td className="py-2 text-gray-700">{row.year}</td>
-                          <td className="py-2 font-semibold text-[#003283]">
-                            {formatScore(row.score)}
-                          </td>
-                          <td className="py-2 text-gray-700">{row.patients}</td>
+                  <>
+                    <IndicatorTrendChart rows={rowsForIndicator} />
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-gray-200 text-left">
+                          <th className="pb-2 font-medium text-gray-500">År</th>
+                          <th className="pb-2 font-medium text-gray-500">Score</th>
+                          <th className="pb-2 font-medium text-gray-500">Pasienter</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {rowsForIndicator.map((row) => (
+                          <tr key={row.id} className="border-b border-gray-100 last:border-0">
+                            <td className="py-2 text-gray-700">{row.year}</td>
+                            <td className="py-2 font-semibold text-[#003283]">
+                              {formatScore(row.score)}
+                            </td>
+                            <td className="py-2 text-gray-700">{row.patients}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </>
                 )}
               </div>
             </section>
