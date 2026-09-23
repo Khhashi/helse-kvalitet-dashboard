@@ -43,75 +43,91 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
   );
 
   return (
-    <div>
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row">
-        <input
-          type="text"
-          placeholder="Søk på sykehusnavn..."
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          className="h-10 flex-1 rounded border border-gray-300 px-3 text-sm"
-        />
+    <div className="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+      <div className="h-1.5 bg-[#003283]" />
 
-        <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
-          className="h-10 rounded border border-gray-300 px-2 text-sm"
-        >
-          <option value="all">Alle år</option>
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
+      <div className="p-6">
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row">
+          <input
+            type="text"
+            placeholder="Søk på sykehusnavn..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="h-10 flex-1 rounded-lg border border-gray-300 px-3 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
+          />
 
-        <select
-          value={selectedIndicatorId}
-          onChange={(e) => setSelectedIndicatorId(e.target.value)}
-          className="h-10 rounded border border-gray-300 px-2 text-sm"
-        >
-          {indicators.map((indicator) => (
-            <option key={indicator.indicator_id} value={indicator.indicator_id}>
-              {indicator.title}
-            </option>
-          ))}
-        </select>
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="h-10 rounded-lg border border-gray-300 px-2 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
+          >
+            <option value="all">Alle år</option>
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={selectedIndicatorId}
+            onChange={(e) => setSelectedIndicatorId(e.target.value)}
+            className="h-10 w-[240px] rounded-lg border border-gray-300 px-2 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
+          >
+            {indicators.map((indicator) => (
+              <option key={indicator.indicator_id} value={indicator.indicator_id}>
+                {indicator.title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <p className="mb-4 rounded-lg bg-[#F0F3FA] px-3 py-2 text-sm text-gray-700">
+          {currentIndicator.description}
+        </p>
+
+        <div className="overflow-x-auto rounded-lg border border-gray-100">
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="border-b-2 border-[#81A9E1] bg-[#F7F9FD] text-left">
+                <th className="p-3 font-semibold text-[#003283]">Helseforetak</th>
+                <th className="p-3 font-semibold text-[#003283]">
+                  <button
+                    onClick={() => setSortDescending(!sortDescending)}
+                    className="flex items-center gap-1"
+                  >
+                    Kvalitetsscore {sortDescending ? "↓" : "↑"}
+                  </button>
+                </th>
+                <th className="p-3 font-semibold text-[#003283]">Pasienter</th>
+                <th className="p-3 font-semibold text-[#003283]">År</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className="border-b border-gray-100 last:border-0 hover:bg-[#F0F3FA]"
+                >
+                  <td className="p-3">
+                    <Link
+                      href={`/hospital/${encodeURIComponent(row.unit_name)}`}
+                      className="font-medium text-[#003283] hover:underline"
+                    >
+                      {row.unit_name}
+                    </Link>
+                  </td>
+                  <td className="p-3 font-semibold text-[#003283]">
+                    {formatScore(row.score)}
+                  </td>
+                  <td className="p-3 text-gray-700">{row.patients}</td>
+                  <td className="p-3 text-gray-700">{row.year}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <p className="mb-3 text-sm text-gray-600">{currentIndicator.description}</p>
-
-      <table className="w-full border-collapse text-sm">
-        <thead>
-          <tr className="border-b text-left">
-            <th className="p-2">Helseforetak</th>
-            <th className="p-2">
-              <button
-                onClick={() => setSortDescending(!sortDescending)}
-                className="font-inherit"
-              >
-                Kvalitetsscore {sortDescending ? "↓" : "↑"}
-              </button>
-            </th>
-            <th className="p-2">Pasienter</th>
-            <th className="p-2">År</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.id} className="border-b">
-              <td className="p-2">
-                <Link href={`/hospital/${encodeURIComponent(row.unit_name)}`}>
-                  {row.unit_name}
-                </Link>
-              </td>
-              <td className="p-2">{formatScore(row.score)}</td>
-              <td className="p-2">{row.patients}</td>
-              <td className="p-2">{row.year}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }

@@ -19,12 +19,15 @@ export default async function HospitalDetailPage({ params }: Props) {
   const hospitalRows = allData.filter((d) => d.unit_name === hospitalName);
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-10">
-      <Link href="/" className="mb-6 inline-block text-sm text-blue-900">
+    <main className="mx-auto max-w-3xl px-6 py-12">
+      <Link
+        href="/"
+        className="mb-6 inline-block text-sm font-medium text-[#003283] hover:underline"
+      >
         ← Tilbake til oversikt
       </Link>
 
-      <h1 className="mb-6 text-3xl font-bold">{hospitalName}</h1>
+      <h1 className="mb-8 text-4xl font-bold text-[#003283]">{hospitalName}</h1>
 
       {hospitalRows.length === 0 && (
         <p className="text-gray-500">
@@ -32,41 +35,53 @@ export default async function HospitalDetailPage({ params }: Props) {
         </p>
       )}
 
-      {indicators.map((indicator) => {
-        const rowsForIndicator = hospitalRows.filter(
-          (d) => d.indicator_name === indicator.indicator_id
-        );
+      <div className="space-y-5">
+        {indicators.map((indicator) => {
+          const rowsForIndicator = hospitalRows.filter(
+            (d) => d.indicator_name === indicator.indicator_id
+          );
 
-        return (
-          <section key={indicator.indicator_id} className="mb-6 rounded border p-4">
-            <h2 className="font-semibold">{indicator.title}</h2>
-            <p className="mb-3 text-sm text-gray-600">{indicator.description}</p>
+          return (
+            <section
+              key={indicator.indicator_id}
+              className="overflow-hidden rounded-xl border border-gray-200 shadow-sm"
+            >
+              <div className="h-1 bg-[#81A9E1]" />
+              <div className="p-5">
+                <h2 className="font-semibold text-[#003283]">{indicator.title}</h2>
+                <p className="mb-4 text-sm text-gray-600">{indicator.description}</p>
 
-            {rowsForIndicator.length === 0 ? (
-              <p className="text-sm text-gray-400 italic">Ingen data tilgjengelig</p>
-            ) : (
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left">
-                    <th>År</th>
-                    <th>Score</th>
-                    <th>Pasienter</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowsForIndicator.map((row) => (
-                    <tr key={row.id}>
-                      <td>{row.year}</td>
-                      <td>{formatScore(row.score)}</td>
-                      <td>{row.patients}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </section>
-        );
-      })}
+                {rowsForIndicator.length === 0 ? (
+                  <p className="text-sm italic text-gray-400">
+                    Ingen data tilgjengelig
+                  </p>
+                ) : (
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-gray-200 text-left">
+                        <th className="pb-2 font-medium text-gray-500">År</th>
+                        <th className="pb-2 font-medium text-gray-500">Score</th>
+                        <th className="pb-2 font-medium text-gray-500">Pasienter</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowsForIndicator.map((row) => (
+                        <tr key={row.id} className="border-b border-gray-100 last:border-0">
+                          <td className="py-2 text-gray-700">{row.year}</td>
+                          <td className="py-2 font-semibold text-[#003283]">
+                            {formatScore(row.score)}
+                          </td>
+                          <td className="py-2 text-gray-700">{row.patients}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </section>
+          );
+        })}
+      </div>
     </main>
   );
 }
