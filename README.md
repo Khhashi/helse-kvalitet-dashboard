@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SKDE Kandidatoppgave – Sykehus- og kvalitetsdata
 
-## Getting Started
+Webapplikasjon som viser kvalitetsdata for helseforetak (HF), basert på
+data fra Tonsilleregisteret (Norsk kvalitetsregister Øre-Nese-Hals).
 
-First, run the development server:
+- **`/`** – oversikt over alle HF: søk på navn, filtrering på år,
+  sortering på kvalitetsscore, valg mellom tre kvalitetsindikatorer
+- **`/hospital/[id]`** – detaljvisning for ett HF, med alle indikatorer
+  over alle tilgjengelige år
+
+## Teknologi
+
+Next.js 16 (App Router), React, TypeScript, Tailwind CSS
+
+## Oppstart
 
 ```bash
+git clone <repo-url>
+cd skde-kandidatoppgave
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Åpne <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Andre kommandoer:
+```bash
+npm run build   # produksjonsbygg
+npm run lint    # ESLint
+npm run test    # enhetstester (Vitest)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Forklaring av designvalg
 
-## Learn More
+**Indikator-velger i stedet for én samlet "kvalitetsscore".**
+Datasettet har tre kvalitetsindikatorer per HF (reinnleggelse, smerter,
+symptomfri), og de peker ulik vei – for to av dem er lavere score bedre,
+for den tredje er høyere bedre. Et gjennomsnitt av disse ville gitt et tall
+uten reell mening. Løsningen lar derfor brukeren velge hvilken indikator
+som vises og sorteres på, i stedet for at jeg finner opp en vekting jeg
+ikke har faglig grunnlag for.
 
-To learn more about Next.js, take a look at the following resources:
+**Tabell fremfor liste.** Oppgaven åpnet for "tabell, liste eller
+lignende". Med 19 helseforetak som skal sammenlignes på ett tall, gir en
+tabell bedre mulighet til å skanne og sortere enn en kortbasert liste.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Ingen eget API-lag.** Data hentes direkte fra JSON-filene i
+`lib/data.ts`. Siden datasettet er statisk, ville et eget Route Handler
+bare vært unødvendig indirection – i en løsning med ekte, oppdaterbare
+data ville dette vært et API-kall i stedet.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Server- vs. Client Components.** Alt er Server Component som
+utgangspunkt. `"use client"` er kun lagt til på selve
+`HospitalOverview`-komponenten, siden det er den eneste som faktisk
+trenger interaktivitet (søkefelt, dropdowns med `useState`).
 
-## Deploy on Vercel
+**Manglende data håndteres eksplisitt.** Ett HF (OUS) mangler data for
+enkelte år i datasettet. I stedet for å vise tomme eller feilaktige
+verdier, vises en tydelig melding om at data ikke er tilgjengelig.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Forslag til videre forbedringer
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Ekte backend/API** i stedet for statisk JSON, slik at data kan
+  oppdateres uten ny utrulling av frontend
+- **Flere enhetstester**, inkludert kantetilfeller og komponenttester
+- **URL-basert filterstate** (`?q=...&year=...`) for delbare lenker og
+  fungerende tilbake-knapp
+- **Visualisering** av utvikling over tid per indikator på detaljsiden
+- **Bedre tilgjengelighet (a11y)**: ARIA-labels på filterkontroller,
+  testet med skjermleser
+- **CD**: automatisk deploy til Vercel ved merge til main, i tillegg til
+  dagens CI
+
+## Bruk av KI-verktøy
+
+GitHub Copilot er brukt som sparringpartner underveis: til boilerplate-
+kode, diskusjon av arkitekturvalg (bl.a. håndtering av flere
+kvalitetsindikatorer og Server/Client Component-struktur), og til å
+strukturere denne READMEen. All kode er gjennomgått, forstått og testet
+av meg selv.
