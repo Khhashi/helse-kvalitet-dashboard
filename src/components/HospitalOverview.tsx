@@ -18,10 +18,15 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
   const [searchText, setSearchText] = useState("");
   const [selectedYear, setSelectedYear] = useState("all");
   const [sortDescending, setSortDescending] = useState(true);
+  const [selectedIndicatorId, setSelectedIndicatorId] = useState(
+    indicators[0].indicator_id
+  );
 
-  const selectedIndicator = indicators[0].indicator_id;
+  const currentIndicator = indicators.find(
+    (i) => i.indicator_id === selectedIndicatorId
+  )!;
 
-  let rows = allData.filter((d) => d.indicator_name === selectedIndicator);
+  let rows = allData.filter((d) => d.indicator_name === selectedIndicatorId);
 
   if (searchText.trim() !== "") {
     rows = rows.filter((d) =>
@@ -60,7 +65,21 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
             </option>
           ))}
         </select>
+
+        <select
+          value={selectedIndicatorId}
+          onChange={(e) => setSelectedIndicatorId(e.target.value)}
+          className="h-10 rounded border border-gray-300 px-2 text-sm"
+        >
+          {indicators.map((indicator) => (
+            <option key={indicator.indicator_id} value={indicator.indicator_id}>
+              {indicator.title}
+            </option>
+          ))}
+        </select>
       </div>
+
+      <p className="mb-3 text-sm text-gray-600">{currentIndicator.description}</p>
 
       <table className="w-full border-collapse text-sm">
         <thead>
