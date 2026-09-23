@@ -1,0 +1,17 @@
+[
+  {
+    "indicator_id": "tonsille_reinnleggelse",
+    "title": "Reinnleggelse pga blødning",
+    "description": "Kvalitetsindikatoren er definert som andel reinnleggelse pga blødning etter tonsilleoperasjon"
+  },
+  {
+    "indicator_id": "tonsille_smerter",
+    "title": "Kontakt med helsevesenet pga smerter",
+    "description": "Kvalitetsindikatoren er definert som andel pasienter som har tatt kontakt med helsevesenet pga smerter etter tonsilleoperasjon"
+  },
+  {
+    "indicator_id": "tonsille_symptomfri",
+    "title": "Symptomfri etter 6 mnd",
+    "description": "Kvalitetsindikatoren er definert som andel pasienter som svarer at de er symptomfri for plagene 6 mnd. etter operasjonen"
+  }
+]
