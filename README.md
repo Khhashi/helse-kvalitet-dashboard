@@ -1,4 +1,4 @@
-# SKDE Kandidatoppgave – Sykehus- og kvalitetsdata
+# SKDE – Sykehus- og kvalitetsdata
 
 Webapplikasjon som viser kvalitetsdata for helseforetak (HF), basert på
 data fra Tonsilleregisteret (Norsk kvalitetsregister Øre-Nese-Hals).
