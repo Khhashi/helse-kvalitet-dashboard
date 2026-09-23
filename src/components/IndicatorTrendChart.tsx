@@ -15,8 +15,31 @@ type Props = {
   rows: HospitalDataPoint[];
 };
 
-function formatPercentage(value: number | undefined): string {
-  return value === undefined ? "Ingen data" : `${value.toFixed(1)} %`;
+type ChartPoint = {
+  year: number;
+  score: number | null;
+  patients: number | null;
+};
+
+type TooltipProps = {
+  active?: boolean;
+  payload?: Array<{ payload?: ChartPoint }>;
+};
+
+function ChartTooltip({ active, payload }: TooltipProps) {
+  const point = payload?.[0]?.payload;
+
+  if (!active || !point || point.score === null || point.patients === null) {
+    return null;
+  }
+
+  return (
+    <div className="rounded border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm">
+      <p className="font-semibold text-gray-700">{point.year}</p>
+      <p className="text-[#003283]">Score: {point.score.toFixed(1)} %</p>
+      <p className="text-gray-600">Pasienter: {point.patients}</p>
+    </div>
+  );
 }
 
 export default function IndicatorTrendChart({ rows }: Props) {
@@ -32,7 +55,11 @@ export default function IndicatorTrendChart({ rows }: Props) {
     (_, index) => {
       const year = firstYear + index;
       const row = rowByYear.get(year);
-      return { year, score: row ? row.score * 100 : null };
+      return {
+        year,
+        score: row ? row.score * 100 : null,
+        patients: row?.patients ?? null,
+      };
     }
   );
 
@@ -51,7 +78,7 @@ export default function IndicatorTrendChart({ rows }: Props) {
               tick={{ fontSize: 12 }}
               tickFormatter={(value: number) => `${value}%`}
             />
-            <Tooltip formatter={(value) => formatPercentage(Number(value))} />
+            <Tooltip content={<ChartTooltip />} />
             <Line
               type="monotone"
               dataKey="score"
