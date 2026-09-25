@@ -3,6 +3,18 @@
 Et dashboard for å utforske kvalitetsdata fra Tonsilleregisteret, som er et
 norsk medisinsk kvalitetsregister innen øre-, nese- og halsbehandling.
 
+## Produksjon
+
+Appen er tilgjengelig på Vercel:
+
+<https://helse-kvalitet-dashboard.vercel.app>
+
+Produksjonsdeploy gjøres foreløpig manuelt fra prosjektmappen med:
+
+```bash
+vercel --prod
+```
+
 ## Hva betyr SKDE?
 
 SKDE står for **Senter for klinisk dokumentasjon og evaluering**. Senteret
@@ -88,16 +100,4 @@ De viktigste sidene er:
 
 - `/` – oversikt over helseforetak
 - `/hospital/[id]` – detaljer og historisk utvikling for ett helseforetak
-
-## Produksjon
-
-Appen er tilgjengelig på Vercel:
-
-<https://helse-kvalitet-dashboard.vercel.app>
-
-Produksjonsdeploy gjøres foreløpig manuelt fra prosjektmappen med:
-
-```bash
-vercel --prod
-```
 
