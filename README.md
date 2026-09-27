@@ -1,103 +1,69 @@
 # SKDE – Sykehus- og kvalitetsdata
 
-Et dashboard for å utforske kvalitetsdata fra Tonsilleregisteret, som er et
-norsk medisinsk kvalitetsregister innen øre-, nese- og halsbehandling.
+[![CI](https://github.com/Khhashi/helse-kvalitet-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/Khhashi/helse-kvalitet-dashboard/actions/workflows/ci.yml)
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-20232A?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)
 
-## Produksjon
+Dashboard for å utforske kvalitetsdata fra Tonsilleregisteret, et norsk medisinsk kvalitetsregister innen øre-, nese- og halsbehandling. Du kan sammenligne helseforetak og følge utviklingen over flere år.
 
-Appen er tilgjengelig på Vercel:
+**[Live demo ↗](https://helse-kvalitet-dashboard.vercel.app)**
 
-<https://helse-kvalitet-dashboard.vercel.app>
+## Grensesnitt
 
-Produksjonsdeploy gjøres foreløpig manuelt fra prosjektmappen med:
+Her er grensesnittet til dashboardet, fra oversikten over helseforetak til detaljsiden med utvikling over tid.
 
-```bash
-vercel --prod
-```
+<table>
+  <tr>
+    <td width="50%"><img src="https://github.com/user-attachments/assets/a94b27a9-33de-489f-b672-12956bffe406" alt="Oversikt over helseforetak" /></td>
+    <td width="50%"><img src="https://github.com/user-attachments/assets/c8764914-9222-40cc-a069-1f77858cc40e" alt="Oversikt med søk, filter og sortering" /></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="https://github.com/user-attachments/assets/46848a29-a707-4272-b2f9-4a0444ce5279" alt="Detaljside med utvikling over tid" /></td>
+    <td width="50%"><img src="https://github.com/user-attachments/assets/af37a852-5013-4c9a-881d-a8f51c955ef7" alt="Graf med antall pasienter i tooltip" /></td>
+  </tr>
+</table>
 
-## Hva betyr SKDE?
+## Funksjoner
 
-SKDE står for **Senter for klinisk dokumentasjon og evaluering**. Senteret
-arbeider med å samle inn, analysere og formidle kunnskap om kvaliteten i
-helsetjenesten. Kvalitetsregistre, som Tonsilleregisteret, gjør det mulig å
-følge behandlingsresultater over tid og sammenligne resultater mellom
-helseforetak.
+- Søk etter helseforetak og filtrering på år og kvalitetsindikator
+- Sortering av helseforetak etter resultat
+- Detaljside med graf over utviklingen for hvert helseforetak
+- Antall pasienter vises i grafen, så resultatene kan tolkes riktig
 
-Dette prosjektet er en enkel visualisering av slike data. Det er ikke et
-journalsystem og skal ikke brukes til å ta beslutninger om enkeltpasienter.
+Dashboardet viser tre indikatorer: reinnleggelse på grunn av blødning, kontakt med helsevesenet på grunn av smerter, og andel pasienter som er symptomfrie seks måneder etter operasjon.
 
-## Hva kan du bruke dashboardet til?
+## Om SKDE
 
-På forsiden kan du:
-
-- søke etter et helseforetak
-- velge år og kvalitetsindikator
-- sortere helseforetak etter resultat
-- åpne en detaljside for å se utviklingen over flere år
-
-Et **helseforetak (HF)** er en organisasjon som driver sykehus eller annen
-spesialisthelsetjeneste. En **kvalitetsindikator** er et mål som brukes for å
-beskrive kvaliteten på behandlingen. Dashboardet viser tre indikatorer:
-
-- reinnleggelse på grunn av blødning etter tonsilleoperasjon
-- kontakt med helsevesenet på grunn av smerter etter operasjon
-- andel pasienter som er symptomfrie seks måneder etter operasjon
-
-## Datagrunnlag
-
-Dataene ligger lokalt i `src/data/data.json`, mens navn og beskrivelser av
-indikatorene ligger i `src/data/metadata.json`. Applikasjonen leser altså
-ikke data fra et eksternt API når den kjører.
-
-Resultatene bør tolkes med konteksten rundt datagrunnlaget i mente. Antall
-pasienter, valgt år og hvilken indikator som vises påvirker hvordan tallene
-bør sammenlignes.
+SKDE står for **Senter for klinisk dokumentasjon og evaluering**. Senteret samler inn, analyserer og formidler kunnskap om kvaliteten i helsetjenesten. Dette prosjektet er en visualisering av slike data, og skal ikke brukes til beslutninger om enkeltpasienter.
 
 ## Teknologi
 
-- [Next.js](https://nextjs.org/) 16 med App Router
-- React 19
-- TypeScript
-- Tailwind CSS
-- [Recharts](https://recharts.org/) for grafer
-- [Vitest](https://vitest.dev/) for enhetstester
+**Next.js 16 (App Router), React 19, TypeScript · Tailwind CSS · Recharts · Vitest · GitHub Actions, Vercel**
 
-## Kom i gang lokalt
+## Tekniske valg
 
-Du trenger Node.js og npm installert.
+- **Filtrering som rene funksjoner:** Søk, filtrering og sortering ligger i egne funksjoner i `lib/filters.ts`, adskilt fra komponentene. De endrer aldri de opprinnelige dataene, og kan derfor testes isolert.
+- **Lokale data med TypeScript-typer:** Dataene leses fra JSON-filer i prosjektet, med egne typer for datapunkter og metadata. Appen er dermed ikke avhengig av et eksternt API, og feil i datastrukturen fanges ved bygging.
+- **Streng CI:** Hver push kjører lint, typekontroll, tester og produksjonsbygg, så feil oppdages før de når `main`.
+
+## Tester og CI
+
+8 enhetstester i Vitest dekker søk, filtrering på år og indikator, sortering, og at de opprinnelige dataene ikke endres. GitHub Actions kjører lint, typekontroll, tester og build på hver push og pull request.
+
+## Arbeidsflyt
+
+Hver oppgave starter som et issue med en tydelig «Definition of done» og utvikles på en egen feature-branch. Endringen går gjennom en pull request og merges til `main` når CI er grønn.
+
+## Kjør lokalt
+
+Krever Node.js 20.
 
 ```bash
-git clone <repo-url>
-cd helse-kvalitet-dashboard
 npm install
 npm run dev
 ```
 
-Åpne deretter <http://localhost:3000> i nettleseren.
-
-## Nyttige kommandoer
-
-```bash
-npm run dev      # starter utviklingsserveren
-npm run build    # bygger appen for produksjon
-npm run start    # starter produksjonsbygget
-npm run lint     # kjører ESLint
-npm run test     # kjører enhetstester med Vitest
-```
-
-## Mappestruktur
-
-```text
-src/
-├── app/          # sider og layout
-├── components/   # gjenbrukbare UI-komponenter og grafer
-├── data/         # lokalt datagrunnlag og metadata
-├── lib/          # funksjoner for uthenting og filtrering av data
-└── types/        # TypeScript-typer
-```
-
-De viktigste sidene er:
-
-- `/` – oversikt over helseforetak
-- `/hospital/[id]` – detaljer og historisk utvikling for ett helseforetak
-
+Åpne <http://localhost:3000>. Kjør testene med `npm test`.
