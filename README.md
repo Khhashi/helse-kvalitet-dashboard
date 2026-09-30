@@ -51,7 +51,7 @@ SKDE står for **Senter for klinisk dokumentasjon og evaluering**. Senteret saml
 
 ## Tester og CI
 
-8 enhetstester i Vitest dekker søk, filtrering på år og indikator, sortering, og at de opprinnelige dataene ikke endres. GitHub Actions kjører lint, typekontroll, tester og build på hver push og pull request.
+9 enhetstester i Vitest dekker søk, filtrering på år og indikator, sortering, listen over helseforetak og at de opprinnelige dataene ikke endres. GitHub Actions kjører lint, typekontroll, tester og build på hver push og pull request.
 
 ## Arbeidsflyt
 

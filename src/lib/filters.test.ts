@@ -3,6 +3,7 @@ import {
   filterByIndicator,
   filterBySearch,
   filterByYear,
+  getUniqueHospitalNames,
   sortByScore,
 } from "./filters";
 import type { HospitalDataPoint } from "@/types/hospital";
@@ -65,5 +66,11 @@ describe("sortByScore", () => {
     const original = [...testData];
     sortByScore(testData, true);
     expect(testData).toEqual(original);
+  });
+});
+
+describe("getUniqueHospitalNames", () => {
+  it("returnerer hvert helseforetak én gang, sortert alfabetisk", () => {
+    expect(getUniqueHospitalNames(testData)).toEqual(["Bergen HF", "Oslo HF"]);
   });
 });
