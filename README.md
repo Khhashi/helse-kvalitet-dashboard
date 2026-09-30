@@ -62,7 +62,7 @@ Hver oppgave starter som et issue med en tydelig «Definition of done» og utvik
 Krever Node.js 20.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
