@@ -1,10 +1,17 @@
 import Link from "next/link";
-import { getAllData, getIndicators } from "@/lib/data";
+import { notFound } from "next/navigation";
+import { getAllData, getHospitalNames, getIndicators } from "@/lib/data";
 import IndicatorTrendChart from "@/components/IndicatorTrendChart";
 
 type Props = {
   params: Promise<{ id: string }>;
 };
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return getHospitalNames().map((name) => ({ id: name }));
+}
 
 function formatScore(score: number): string {
   return (score * 100).toFixed(1) + " %";
@@ -19,6 +26,10 @@ export default async function HospitalDetailPage({ params }: Props) {
 
   const hospitalRows = allData.filter((d) => d.unit_name === hospitalName);
 
+  if (hospitalRows.length === 0) {
+    notFound();
+  }
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
       <Link
@@ -29,12 +40,6 @@ export default async function HospitalDetailPage({ params }: Props) {
       </Link>
 
       <h1 className="mb-8 text-4xl font-bold text-[#003283]">{hospitalName}</h1>
-
-      {hospitalRows.length === 0 && (
-        <p className="text-gray-500">
-          Fant ingen data for dette helseforetaket.
-        </p>
-      )}
 
       <div className="space-y-5">
         {indicators.map((indicator) => {

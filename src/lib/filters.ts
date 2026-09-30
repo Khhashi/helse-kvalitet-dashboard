@@ -32,3 +32,9 @@ export function sortByScore(
     descending ? b.score - a.score : a.score - b.score
   );
 }
+
+export function getUniqueHospitalNames(data: HospitalDataPoint[]): string[] {
+  return [...new Set(data.map((d) => d.unit_name))].sort((a, b) =>
+    a.localeCompare(b, "nb")
+  );
+}
