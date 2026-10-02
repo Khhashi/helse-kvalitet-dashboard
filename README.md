@@ -1,4 +1,4 @@
-# SKDE – Sykehus- og kvalitetsdata
+# Helse-kvalitet-dashboard
 
 [![CI](https://github.com/Khhashi/helse-kvalitet-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/Khhashi/helse-kvalitet-dashboard/actions/workflows/ci.yml)
 ![Next.js](https://img.shields.io/badge/Next.js_16-000000?logo=nextdotjs&logoColor=white)
@@ -10,6 +10,10 @@
 Dashboard for å utforske kvalitetsdata fra Tonsilleregisteret, et norsk medisinsk kvalitetsregister innen øre-, nese- og halsbehandling. Du kan sammenligne helseforetak og følge utviklingen over flere år.
 
 **[Live demo ↗](https://helse-kvalitet-dashboard.vercel.app)**
+
+## Hvorfor jeg bygde det
+
+Jeg bygde dashboardet for å lære å gjøre offentlige helsedata lette å forstå. Kvalitetsregistre inneholder mye nyttig informasjon, men tallene er vanskelige å sammenligne uten gode verktøy. Jeg ville vise utviklingen per helseforetak over tid, og samtidig vise antall pasienter, så ingen trekker konklusjoner fra et for lite grunnlag. Jeg valgte Next.js og TypeScript for å lære et typet frontend-rammeverk, og for å få sider som lastes raskt fordi de bygges på forhånd.
 
 ## Grensesnitt
 
