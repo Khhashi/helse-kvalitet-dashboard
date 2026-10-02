@@ -39,9 +39,9 @@ Her er grensesnittet til dashboardet, fra oversikten over helseforetak til detal
 
 Dashboardet viser tre indikatorer: reinnleggelse på grunn av blødning, kontakt med helsevesenet på grunn av smerter, og andel pasienter som er symptomfrie seks måneder etter operasjon.
 
-## Om SKDE
+## Om dataene
 
-SKDE står for **Senter for klinisk dokumentasjon og evaluering**. Senteret samler inn, analyserer og formidler kunnskap om kvaliteten i helsetjenesten. Dette prosjektet er en visualisering av slike data, og skal ikke brukes til beslutninger om enkeltpasienter.
+Dataene kommer fra Tonsilleregisteret, publisert av SKDE (Senter for klinisk dokumentasjon og evaluering). Dette er et uavhengig sideprosjekt og er ikke laget av eller for SKDE. Visualiseringen skal ikke brukes til beslutninger om enkeltpasienter.
 
 ## Teknologi
 
@@ -52,6 +52,8 @@ SKDE står for **Senter for klinisk dokumentasjon og evaluering**. Senteret saml
 - **Filtrering som rene funksjoner:** Søk, filtrering og sortering ligger i egne funksjoner i `lib/filters.ts`, adskilt fra komponentene. De endrer aldri de opprinnelige dataene, og kan derfor testes isolert.
 - **Lokale data med TypeScript-typer:** Dataene leses fra JSON-filer i prosjektet, med egne typer for datapunkter og metadata. Appen er dermed ikke avhengig av et eksternt API, og feil i datastrukturen fanges ved bygging.
 - **Streng CI:** Hver push kjører lint, typekontroll, tester og produksjonsbygg, så feil oppdages før de når `main`.
+
+Se [arkitekturdokumentet](docs/ARCHITECTURE.md) for diagrammer, dataflyt og designbeslutninger.
 
 ## Tester og CI
 
