@@ -7,7 +7,7 @@ export default function Home() {
   const years = getAvailableYears();
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-12">
+    <main className="mx-auto w-full min-w-0 max-w-4xl px-6 py-12">
       <header className="mb-8">
         <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-[#81A9E1]">
           Tonsilleregisteret
