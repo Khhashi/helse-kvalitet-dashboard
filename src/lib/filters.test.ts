@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  getDefaultSortDescending,
   filterByIndicator,
   filterBySearch,
   filterByYear,
@@ -103,5 +104,21 @@ describe("validateData", () => {
 
   it("godkjenner det importerte datasettet", () => {
     expect(() => validateData(getAllData(), getIndicators())).not.toThrow();
+  });
+});
+
+describe("getDefaultSortDescending", () => {
+  it.each([
+    ["tonsille_reinnleggelse", false],
+    ["tonsille_smerter", false],
+    ["tonsille_symptomfri", true],
+  ])("bruker riktig standardretning for %s", (indicatorId, descending) => {
+    const indicator = getIndicators().find(
+      (item) => item.indicator_id === indicatorId
+    );
+
+    expect(indicator).toBeDefined();
+    if (!indicator) return;
+    expect(getDefaultSortDescending(indicator)).toBe(descending);
   });
 });
