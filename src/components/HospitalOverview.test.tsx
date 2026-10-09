@@ -30,3 +30,32 @@ describe("HospitalOverview empty state", () => {
     );
   });
 });
+
+describe("HospitalOverview result count", () => {
+  it("shows the number of results in a polite live region", () => {
+    const data = getAllData();
+    const selectedIndicator = getIndicators()[0];
+    const visibleRows = data.filter(
+      (row) => row.indicator_name === selectedIndicator.indicator_id
+    );
+    const markup = renderToStaticMarkup(
+      <HospitalOverview
+        allData={data}
+        indicators={getIndicators()}
+        years={[...new Set(data.map((row) => row.year))]}
+      />
+    );
+
+    expect(markup).toContain(`Viser ${visibleRows.length} treff`);
+    expect(markup).toContain('role="status"');
+    expect(markup).toContain('aria-live="polite"');
+  });
+
+  it("shows zero when there are no results", () => {
+    const markup = renderToStaticMarkup(
+      <HospitalOverview allData={[]} indicators={getIndicators()} years={[]} />
+    );
+
+    expect(markup).toContain("Viser 0 treff");
+  });
+});
