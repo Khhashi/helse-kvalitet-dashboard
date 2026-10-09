@@ -52,47 +52,56 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
 
       <div className="p-6">
         <div className="mb-4 flex flex-col gap-3 sm:flex-row">
-          <input
-            type="text"
-            placeholder="Søk på sykehusnavn..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            className="h-10 flex-1 rounded-lg border border-gray-300 px-3 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
-          />
+          <label className="flex flex-1 flex-col gap-1 text-sm font-medium text-gray-700">
+            <span className="sr-only">Søk på sykehusnavn</span>
+            <input
+              type="text"
+              placeholder="Søk på sykehusnavn..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="h-10 rounded-lg border border-gray-300 px-3 text-sm font-normal focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
+            />
+          </label>
 
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="h-10 rounded-lg border border-gray-300 px-2 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
-          >
-            <option value="all">Alle år</option>
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
+          <label className="flex flex-col gap-1 text-sm font-medium text-gray-700">
+            <span className="sr-only">Filtrer på år</span>
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="h-10 rounded-lg border border-gray-300 px-2 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
+            >
+              <option value="all">Alle år</option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </label>
 
-          <select
-            value={selectedIndicatorId}
-            onChange={(e) => {
-              const indicatorId = e.target.value;
-              setSelectedIndicatorId(indicatorId);
-              const indicator = indicators.find(
-                (item) => item.indicator_id === indicatorId
-              );
-              if (indicator) {
-                setSortDescending(getDefaultSortDescending(indicator));
-              }
-            }}
-            className="h-10 w-[240px] rounded-lg border border-gray-300 px-2 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
-          >
-            {indicators.map((indicator) => (
-              <option key={indicator.indicator_id} value={indicator.indicator_id}>
-                {indicator.title}
-              </option>
-            ))}
-          </select>
+          <label className="flex flex-col gap-1 text-sm font-medium text-gray-700">
+            <span className="sr-only">Velg kvalitetsindikator</span>
+            <select
+              value={selectedIndicatorId}
+              onChange={(e) => {
+                const indicatorId = e.target.value;
+                setSelectedIndicatorId(indicatorId);
+                const indicator = indicators.find(
+                  (item) => item.indicator_id === indicatorId
+                );
+                if (indicator) {
+                  setSortDescending(getDefaultSortDescending(indicator));
+                }
+              }}
+              className="h-10 w-60 rounded-lg border border-gray-300 px-2 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
+            >
+              {indicators.map((indicator) => (
+                <option key={indicator.indicator_id} value={indicator.indicator_id}>
+                  {indicator.title}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
 
         <p className="mb-4 rounded-lg bg-[#F0F3FA] px-3 py-2 text-sm text-gray-700">
