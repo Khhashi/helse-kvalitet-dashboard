@@ -1,4 +1,8 @@
-import type { HospitalDataPoint } from "@/types/hospital";
+import type { HospitalDataPoint, IndicatorMeta } from "@/types/hospital";
+
+export function getDefaultSortDescending(indicator: IndicatorMeta): boolean {
+  return indicator.score_direction === "higher_is_better";
+}
 
 export function filterByIndicator(
   data: HospitalDataPoint[],
