@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  getDefaultSortDescending,
   filterByIndicator,
   filterBySearch,
   filterByYear,
@@ -7,6 +8,7 @@ import {
   sortByScore,
 } from "./filters";
 import type { HospitalDataPoint } from "@/types/hospital";
+import { getAllData, getIndicators, validateData } from "./data";
 
 const testData: HospitalDataPoint[] = [
   { id: 1, indicator_name: "a", unit_name: "Bergen HF", year: 2022, patients: 100, score: 0.2 },
@@ -72,5 +74,51 @@ describe("sortByScore", () => {
 describe("getUniqueHospitalNames", () => {
   it("returnerer hvert helseforetak én gang, sortert alfabetisk", () => {
     expect(getUniqueHospitalNames(testData)).toEqual(["Bergen HF", "Oslo HF"]);
+  });
+});
+
+describe("validateData", () => {
+  it("avviser datapunkter med score utenfor intervallet 0–1", () => {
+    const invalidPoint = { ...testData[0], score: 1.1 };
+
+    expect(() => validateData([invalidPoint], getIndicators())).toThrow(
+      "Ugyldig data.json"
+    );
+  });
+
+  it("avviser datapunkter med ugyldig pasientantall", () => {
+    const invalidPoint = { ...testData[0], patients: -1 };
+
+    expect(() => validateData([invalidPoint], getIndicators())).toThrow(
+      "Ugyldig data.json"
+    );
+  });
+
+  it("avviser indikatorer som ikke finnes i metadata", () => {
+    const unknownIndicator = { ...testData[0], indicator_name: "ukjent" };
+
+    expect(() => validateData([unknownIndicator], getIndicators())).toThrow(
+      "ukjente indikatorer ukjent"
+    );
+  });
+
+  it("godkjenner det importerte datasettet", () => {
+    expect(() => validateData(getAllData(), getIndicators())).not.toThrow();
+  });
+});
+
+describe("getDefaultSortDescending", () => {
+  it.each([
+    ["tonsille_reinnleggelse", false],
+    ["tonsille_smerter", false],
+    ["tonsille_symptomfri", true],
+  ])("bruker riktig standardretning for %s", (indicatorId, descending) => {
+    const indicator = getIndicators().find(
+      (item) => item.indicator_id === indicatorId
+    );
+
+    expect(indicator).toBeDefined();
+    if (!indicator) return;
+    expect(getDefaultSortDescending(indicator)).toBe(descending);
   });
 });

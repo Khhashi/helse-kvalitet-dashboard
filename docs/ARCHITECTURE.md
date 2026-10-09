@@ -102,6 +102,7 @@ erDiagram
     INDICATOR_META ||--o{ HOSPITAL_DATA_POINT : beskriver
     INDICATOR_META {
         string indicator_id
+        string score_direction
         string title
         string description
     }
@@ -116,6 +117,8 @@ erDiagram
 ```
 
 Hvert datapunkt er ett resultat for ett helseforetak, én indikator og ett år. `indicator_name` peker på `indicator_id` i metadataene. `patients` vises alltid sammen med `score`, fordi et resultat basert på få pasienter er mindre sikkert.
+
+Metadataene angir også `score_direction`: lavere score er ønskelig for reinnleggelse og kontakt på grunn av smerter, mens høyere score er ønskelig for symptomfrihet. Oversikten bruker denne retningen som standardsortering når indikatoren endres.
 
 ## 7. Designbeslutninger
 
