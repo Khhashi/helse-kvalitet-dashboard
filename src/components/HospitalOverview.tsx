@@ -126,26 +126,34 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
               </tr>
             </thead>
             <tbody>
-              {rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className="border-b border-gray-100 last:border-0 hover:bg-[#F0F3FA]"
-                >
-                  <td className="p-3">
-                    <Link
-                      href={`/hospital/${encodeURIComponent(row.unit_name)}`}
-                      className="font-medium text-[#003283] hover:underline"
-                    >
-                      {row.unit_name}
-                    </Link>
+              {rows.length === 0 ? (
+                <tr>
+                  <td colSpan={4} className="p-6 text-center text-gray-600">
+                    Ingen helseforetak samsvarer med valgte søk og filtre.
                   </td>
-                  <td className="p-3 font-semibold text-[#003283]">
-                    {formatScore(row.score)}
-                  </td>
-                  <td className="p-3 text-gray-700">{row.patients}</td>
-                  <td className="p-3 text-gray-700">{row.year}</td>
                 </tr>
-              ))}
+              ) : (
+                rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    className="border-b border-gray-100 last:border-0 hover:bg-[#F0F3FA]"
+                  >
+                    <td className="p-3">
+                      <Link
+                        href={`/hospital/${encodeURIComponent(row.unit_name)}`}
+                        className="font-medium text-[#003283] hover:underline"
+                      >
+                        {row.unit_name}
+                      </Link>
+                    </td>
+                    <td className="p-3 font-semibold text-[#003283]">
+                      {formatScore(row.score)}
+                    </td>
+                    <td className="p-3 text-gray-700">{row.patients}</td>
+                    <td className="p-3 text-gray-700">{row.year}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
