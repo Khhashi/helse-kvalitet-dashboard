@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  getDefaultSortDescending,
   filterByIndicator,
   filterBySearch,
   filterByYear,
@@ -7,6 +8,7 @@ import {
   sortByScore,
 } from "./filters";
 import type { HospitalDataPoint } from "@/types/hospital";
+import { getIndicators } from "./data";
 
 const testData: HospitalDataPoint[] = [
   { id: 1, indicator_name: "a", unit_name: "Bergen HF", year: 2022, patients: 100, score: 0.2 },
@@ -72,5 +74,21 @@ describe("sortByScore", () => {
 describe("getUniqueHospitalNames", () => {
   it("returnerer hvert helseforetak én gang, sortert alfabetisk", () => {
     expect(getUniqueHospitalNames(testData)).toEqual(["Bergen HF", "Oslo HF"]);
+  });
+});
+
+describe("getDefaultSortDescending", () => {
+  it.each([
+    ["tonsille_reinnleggelse", false],
+    ["tonsille_smerter", false],
+    ["tonsille_symptomfri", true],
+  ])("bruker riktig standardretning for %s", (indicatorId, descending) => {
+    const indicator = getIndicators().find(
+      (item) => item.indicator_id === indicatorId
+    );
+
+    expect(indicator).toBeDefined();
+    if (!indicator) return;
+    expect(getDefaultSortDescending(indicator)).toBe(descending);
   });
 });

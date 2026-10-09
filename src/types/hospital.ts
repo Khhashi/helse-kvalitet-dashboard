@@ -9,6 +9,7 @@ export type HospitalDataPoint = {
 
 export type IndicatorMeta = {
   indicator_id: string;
+  score_direction: "lower_is_better" | "higher_is_better";
   title: string;
   description: string;
 };
