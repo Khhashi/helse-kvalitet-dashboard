@@ -7,6 +7,7 @@ import {
   filterByIndicator,
   filterBySearch,
   filterByYear,
+  getDefaultSortDescending,
   sortByScore,
 } from "@/lib/filters";
 
@@ -23,7 +24,9 @@ function formatScore(score: number): string {
 export function HospitalOverview({ allData, indicators, years }: Props) {
   const [searchText, setSearchText] = useState("");
   const [selectedYear, setSelectedYear] = useState("all");
-  const [sortDescending, setSortDescending] = useState(true);
+  const [sortDescending, setSortDescending] = useState(
+    getDefaultSortDescending(indicators[0])
+  );
   const [selectedIndicatorId, setSelectedIndicatorId] = useState(
     indicators[0].indicator_id
   );
@@ -72,7 +75,16 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
 
           <select
             value={selectedIndicatorId}
-            onChange={(e) => setSelectedIndicatorId(e.target.value)}
+            onChange={(e) => {
+              const indicatorId = e.target.value;
+              setSelectedIndicatorId(indicatorId);
+              const indicator = indicators.find(
+                (item) => item.indicator_id === indicatorId
+              );
+              if (indicator) {
+                setSortDescending(getDefaultSortDescending(indicator));
+              }
+            }}
             className="h-10 w-[240px] rounded-lg border border-gray-300 px-2 text-sm focus:border-[#003283] focus:outline-none focus:ring-1 focus:ring-[#003283]"
           >
             {indicators.map((indicator) => (
