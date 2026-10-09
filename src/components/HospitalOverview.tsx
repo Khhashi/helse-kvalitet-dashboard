@@ -104,6 +104,15 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
           </label>
         </div>
 
+        <p
+          className="mb-3 text-sm text-gray-600"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          Viser {rows.length} treff
+        </p>
+
         <p className="mb-4 rounded-lg bg-[#F0F3FA] px-3 py-2 text-sm text-gray-700">
           {currentIndicator.description}
         </p>
