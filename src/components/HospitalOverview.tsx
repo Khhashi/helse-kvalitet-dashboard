@@ -3,6 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { HospitalDataPoint, IndicatorMeta } from "@/types/hospital";
+import {
+  filterByIndicator,
+  filterBySearch,
+  filterByYear,
+  sortByScore,
+} from "@/lib/filters";
 
 type Props = {
   allData: HospitalDataPoint[];
@@ -26,20 +32,15 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
     (i) => i.indicator_id === selectedIndicatorId
   )!;
 
-  let rows = allData.filter((d) => d.indicator_name === selectedIndicatorId);
-
-  if (searchText.trim() !== "") {
-    rows = rows.filter((d) =>
-      d.unit_name.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }
-
-  if (selectedYear !== "all") {
-    rows = rows.filter((d) => d.year === Number(selectedYear));
-  }
-
-  rows = [...rows].sort((a, b) =>
-    sortDescending ? b.score - a.score : a.score - b.score
+  const rows = sortByScore(
+    filterByYear(
+      filterBySearch(
+        filterByIndicator(allData, selectedIndicatorId),
+        searchText
+      ),
+      selectedYear
+    ),
+    sortDescending
   );
 
   return (
