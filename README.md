@@ -57,7 +57,7 @@ Se [arkitekturdokumentet](docs/ARCHITECTURE.md) for diagrammer, dataflyt og desi
 
 ## Tester og CI
 
-9 enhetstester i Vitest dekker søk, filtrering på år og indikator, sortering, listen over helseforetak og at de opprinnelige dataene ikke endres. GitHub Actions kjører lint, typekontroll, tester og build på hver push og pull request.
+20 tester i Vitest dekker søk, filtrering på år og indikator, sortering, standard sorteringsretning per indikator, listen over helseforetak og validering av dataene. Komponenttester sjekker at oversikten viser antall treff og en tomtilstand når ingen rader matcher. GitHub Actions kjører lint, typekontroll, tester og build på hver push og pull request.
 
 ## Arbeidsflyt
 
