@@ -63,6 +63,10 @@ Se [arkitekturdokumentet](docs/ARCHITECTURE.md) for diagrammer, dataflyt og desi
 
 Hver oppgave starter som et issue med en tydelig «Definition of done» og utvikles på en egen feature-branch. Endringen går gjennom en pull request og merges til `main` når CI er grønn.
 
+## Deploy
+
+Vercel-prosjektet er koblet til GitHub-repoet, og `main` er production branch. Hver merge til `main` deployer automatisk til [helse-kvalitet-dashboard.vercel.app](https://helse-kvalitet-dashboard.vercel.app). Pull requests får en egen preview-deploy. Du trenger ikke kjøre `vercel --prod` manuelt.
+
 ## Kjør lokalt
 
 Krever Node.js 20.
