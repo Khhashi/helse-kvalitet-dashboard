@@ -59,3 +59,24 @@ describe("HospitalOverview result count", () => {
     expect(markup).toContain("Viser 0 treff");
   });
 });
+
+describe("HospitalOverview sorting accessibility", () => {
+  it("announces the current sort direction on the score column", () => {
+    const indicators = getIndicators();
+    const allData = getAllData();
+    const years = [...new Set(allData.map((row) => row.year))];
+    const ascendingMarkup = renderToStaticMarkup(
+      <HospitalOverview allData={allData} indicators={indicators} years={years} />
+    );
+    const descendingMarkup = renderToStaticMarkup(
+      <HospitalOverview
+        allData={allData}
+        indicators={[indicators[2], indicators[0], indicators[1]]}
+        years={years}
+      />
+    );
+
+    expect(ascendingMarkup).toMatch(/<th[^>]*aria-sort="ascending"/);
+    expect(descendingMarkup).toMatch(/<th[^>]*aria-sort="descending"/);
+  });
+});

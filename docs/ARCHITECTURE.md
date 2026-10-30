@@ -23,6 +23,8 @@ Dashboardet viser kvalitetsdata fra Tonsilleregisteret. Brukeren kan sammenligne
 | Funksjonelt | Søk etter helseforetak |
 | Funksjonelt | Filtrer på år og kvalitetsindikator |
 | Funksjonelt | Sorter etter resultat, høyest eller lavest først |
+| Funksjonelt | Vis antall treff etter søk og filtrering |
+| Funksjonelt | Vis en tomtilstand når ingen helseforetak samsvarer med søk og filtre |
 | Funksjonelt | Detaljside per helseforetak med utvikling over tid |
 | Funksjonelt | Antall pasienter vises sammen med resultatet |
 | Ikke-funksjonelt | Alle sider bygges på forhånd (statisk) |
@@ -149,12 +151,12 @@ Metadataene angir også `score_direction`: lavere score er ønskelig for reinnle
 
 ## 8. Testing og CI
 
-- **Enhetstester:** Vitest tester funksjonene i `lib/filters.ts`, blant annet søk, filtrering, sortering og at sorteringen ikke endrer originaldataene.
+- **Enhetstester:** Vitest tester funksjonene i `lib/filters.ts`, blant annet søk, filtrering, sortering og at sorteringen ikke endrer originaldataene. Datavalideringen tester også at `score_direction` i metadataene er gyldig.
+- **Komponenttester:** Vitest tester oversikten, inkludert treffantall, tomtilstand og at `aria-sort` på scorekolonnen samsvarer med sorteringsretningen.
 - **CI:** GitHub Actions kjører lint, `tsc --noEmit`, tester og produksjonsbygg på hver push og pull request.
 
 ## 9. Begrensninger og videre arbeid
 
 - **Manuell dataoppdatering:** Nye tall krever at JSON-filene oppdateres og appen bygges på nytt.
-- **Ingen komponenttester:** Testene dekker logikken, men ikke selve visningen. Neste steg er tester med Testing Library.
 - **Navn i URL:** Detaljsidene bruker helseforetakets navn som ID. En kort, fast ID ville gitt penere og mer stabile lenker.
 - **Én kilde:** Dashboardet viser bare Tonsilleregisteret. Strukturen i `lib/data.ts` gjør det mulig å legge til flere registre.

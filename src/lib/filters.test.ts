@@ -102,6 +102,30 @@ describe("validateData", () => {
     );
   });
 
+  it("avviser metadata med ugyldig score_direction", () => {
+    const invalidMetadata = [
+      { ...getIndicators()[0], score_direction: "sideways" },
+    ];
+
+    expect(() => validateData(getAllData(), invalidMetadata)).toThrow(
+      "score_direction må være lower_is_better eller higher_is_better"
+    );
+  });
+
+  it("avviser metadata uten score_direction", () => {
+    const metadataWithoutDirection = Object.fromEntries(
+      Object.entries(getIndicators()[0]).filter(
+        ([key]) => key !== "score_direction"
+      )
+    );
+
+    expect(() =>
+      validateData(getAllData(), [metadataWithoutDirection])
+    ).toThrow(
+      "score_direction må være lower_is_better eller higher_is_better"
+    );
+  });
+
   it("godkjenner det importerte datasettet", () => {
     expect(() => validateData(getAllData(), getIndicators())).not.toThrow();
   });

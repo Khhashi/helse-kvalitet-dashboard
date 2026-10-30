@@ -57,7 +57,7 @@ Se [arkitekturdokumentet](docs/ARCHITECTURE.md) for diagrammer, dataflyt og desi
 
 ## Tester og CI
 
-20 tester i Vitest dekker søk, filtrering på år og indikator, sortering, standard sorteringsretning per indikator, listen over helseforetak og validering av dataene. Komponenttester sjekker at oversikten viser antall treff og en tomtilstand når ingen rader matcher. GitHub Actions kjører lint, typekontroll, tester og build på hver push og pull request.
+Vitest dekker søk, filtrering på år og indikator, sortering, standard sorteringsretning per indikator, listen over helseforetak og validering av dataene, inkludert `score_direction` i metadataene. Komponenttester sjekker treffantall, tomtilstand og at sorteringsretningen annonseres med `aria-sort`. GitHub Actions kjører lint, typekontroll, tester og build på hver push og pull request.
 
 ## Arbeidsflyt
 
@@ -65,7 +65,7 @@ Hver oppgave starter som et issue med en tydelig «Definition of done» og utvik
 
 ## Deploy
 
-Vercel-prosjektet er koblet til GitHub-repoet, og `main` er production branch. Hver merge til `main` deployer automatisk til [helse-kvalitet-dashboard.vercel.app](https://helse-kvalitet-dashboard.vercel.app). Pull requests får en egen preview-deploy. Du trenger ikke kjøre `vercel --prod` manuelt.
+Vercel-prosjektet er koblet til GitHub-repoet, og `main` er production branch. Hver merge til `main` deployer automatisk til [helse-kvalitet-dashboard.vercel.app](https://helse-kvalitet-dashboard.vercel.app). Kontroller status under prosjektets **Deployments** i Vercel-dashboardet. Pull requests får en egen preview-deploy; preview-status og URL vises på pull requesten og under **Deployments**. Du trenger ikke kjøre `vercel --prod` manuelt.
 
 ## Kjør lokalt
 

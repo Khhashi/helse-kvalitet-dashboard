@@ -122,7 +122,10 @@ export function HospitalOverview({ allData, indicators, years }: Props) {
             <thead>
               <tr className="border-b-2 border-[#81A9E1] bg-[#F7F9FD] text-left">
                 <th className="p-3 font-semibold text-[#003283]">Helseforetak</th>
-                <th className="p-3 font-semibold text-[#003283]">
+                <th
+                  aria-sort={sortDescending ? "descending" : "ascending"}
+                  className="p-3 font-semibold text-[#003283]"
+                >
                   <button
                     onClick={() => setSortDescending(!sortDescending)}
                     className="flex items-center gap-1"
