@@ -31,6 +31,8 @@ function isIndicatorMeta(value: unknown): value is IndicatorMeta {
   return (
     isRecord(value) &&
     typeof value.indicator_id === "string" &&
+    (value.score_direction === "lower_is_better" ||
+      value.score_direction === "higher_is_better") &&
     typeof value.title === "string" &&
     typeof value.description === "string"
   );
@@ -48,7 +50,7 @@ export function validateData(
 
   if (!Array.isArray(inputMetadata) || !inputMetadata.every(isIndicatorMeta)) {
     throw new Error(
-      "Ugyldig metadata.json: hver indikator må ha tekstfeltene indicator_id, title og description."
+      "Ugyldig metadata.json: hver indikator må ha tekstfeltene indicator_id, title og description, og score_direction må være lower_is_better eller higher_is_better."
     );
   }
 
